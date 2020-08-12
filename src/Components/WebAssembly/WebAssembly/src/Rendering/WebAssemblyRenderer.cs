@@ -20,6 +20,8 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Rendering
         private readonly ILogger _logger;
         private readonly int _webAssemblyRendererId;
 
+        private bool isDispatchingEvent;
+
         /// <summary>
         /// Constructs an instance of <see cref="WebAssemblyRenderer"/>.
         /// </summary>
@@ -114,6 +116,25 @@ namespace Microsoft.AspNetCore.Components.WebAssembly.Rendering
             {
                 Log.UnhandledExceptionRenderingComponent(_logger, exception);
             }
+        }
+
+        /// <inheritdoc />
+        public override Task DispatchEventAsync(ulong eventHandlerId, EventFieldInfo eventFieldInfo, EventArgs eventArgs)
+        {
+            if (!isDispatchingEvent)
+            {
+                try
+                {
+                    isDispatchingEvent = true;
+                    return base.DispatchEventAsync(eventHandlerId, eventFieldInfo, eventArgs);
+                }
+                finally
+                {
+                    isDispatchingEvent = false;
+                }
+            }
+
+            return Task.CompletedTask;
         }
 
 
