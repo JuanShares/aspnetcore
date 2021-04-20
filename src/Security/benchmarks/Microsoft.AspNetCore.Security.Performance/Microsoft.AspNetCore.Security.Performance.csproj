@@ -7,7 +7,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>Microsoft.AspNetCore.Security</RootNamespace>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.Authorization.Policy" />
     <Reference Include="BenchmarkDotNet" />
